@@ -2,7 +2,7 @@ package pckg_model;
 
 import java.io.Serializable;
 
-public class VideoIgra implements Serializable {
+public class VideoIgra implements Serializable,Comparable<VideoIgra> {
 
     private static final long serialVersionUID = 1L;
 
@@ -150,5 +150,10 @@ public class VideoIgra implements Serializable {
                 ", omiljeno=" + omiljeno +
                 ", preporucujem=" + preporucujem +
                 '}';
+    }
+
+    @Override
+    public int compareTo(VideoIgra druga) {
+        return Integer.compare(druga.getOcjena(), this.getOcjena());
     }
 }
