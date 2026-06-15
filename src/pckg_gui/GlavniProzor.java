@@ -9,7 +9,7 @@ public class GlavniProzor extends JFrame {
     public GlavniProzor(){
         setTitle("GameVault");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1280, 720);
+        setSize(900, 620);
         setLocationRelativeTo(null);
 
         izgradiSucelje();
@@ -19,6 +19,7 @@ public class GlavniProzor extends JFrame {
     private void izgradiSucelje() {
         dodajPanel = new DodajIgruPanel(this);
         add(dodajPanel);
+
     }
 
 }

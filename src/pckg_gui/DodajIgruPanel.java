@@ -28,7 +28,7 @@ public class DodajIgruPanel extends JPanel {
     private JComboBox<String> cbPlatforma;
 
     private JSlider sliderOcjena;
-    private JLabel lblOcijenaVrijednost;
+    private JLabel lblOcjenaVrijednost;
 
     private VideoIgra igra;
 
@@ -37,10 +37,11 @@ public class DodajIgruPanel extends JPanel {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(12, 16, 12, 16));
         izgradiSucelje();
-        //visible
     }
 
     private void izgradiSucelje(){
+
+        //OSNOVNI PODATCI
         JPanel pGornji = new JPanel(new GridBagLayout());
         GridBagConstraints g = new GridBagConstraints();
         g.insets = new Insets(4, 6, 4, 6);
@@ -56,7 +57,125 @@ public class DodajIgruPanel extends JPanel {
         g.weightx = 1;
         pGornji.add(txtNaziv, g);
 
-        add(pGornji, BorderLayout.NORTH);
+        //developer
+        g.gridx = 2;
+        g.weightx = 0;
+        pGornji.add(new JLabel("Developer:"), g);
+        txtDeveloper = new JTextField(15);
+        g.gridx = 3;
+        g.weightx = 1;
+        pGornji.add(txtDeveloper, g);
+
+        //godina
+        g.gridx = 0;
+        g.gridy = 1;
+        g.weightx = 0;
+        pGornji.add(new JLabel("Godina:"), g);
+        txtGodina = new JTextField(6);
+        g.gridx = 1;
+        g.weightx = 0;
+        pGornji.add(txtGodina, g);
+
+        //žanr
+        g.gridx = 2;
+        g.weightx = 0;
+        pGornji.add(new JLabel("Žanr:"), g);
+        String[] zanrovi = {"RPG", "FPS", "Open World", "Sandbox", "Strategija",
+                "Sport", "Horror", "Platformer", "Simulacija", "Ostalo"};
+        cbZanr = new JComboBox<>(zanrovi);
+        g.gridx = 3;
+        g.weightx = 1;
+        pGornji.add(cbZanr, g);
+
+        //platforma
+        g.gridx = 0;
+        g.gridy = 2;
+        g.weightx = 0;
+        pGornji.add(new JLabel("Platforma:"), g);
+        String[] platforme = {"PC", "PlayStation 5", "PlayStation 4", "Xbox Series X",
+                "Xbox One", "Nintendo Switch", "Mobile"};
+        cbPlatforma = new JComboBox<>(platforme);
+        g.gridx = 1;
+        g.weightx = 1;
+        pGornji.add(cbPlatforma, g);
+
+
+        //STATUS
+        JPanel pSrednji = new JPanel(new GridLayout(1,3,10,0));
+
+        JPanel pStatus = new JPanel(new GridLayout(3,1,0,4));
+        ButtonGroup bgStatus = new ButtonGroup();
+        rbIgram = new JRadioButton("Igram");
+        rbZavrseno = new JRadioButton("Završeno");
+        rbPlaniram = new JRadioButton("Planiram igrati");
+        rbZavrseno.setSelected(true);
+        bgStatus.add(rbIgram);
+        bgStatus.add(rbZavrseno);
+        bgStatus.add(rbPlaniram);
+        pStatus.add(rbIgram);
+        pStatus.add(rbZavrseno);
+        pStatus.add(rbPlaniram);
+
+        //OZNAKE
+        JPanel pOznake = new JPanel(new GridLayout(4, 1, 0, 4));
+        cbMultiplayer = new JCheckBox("Multiplayer");
+        cbSingleplayer = new JCheckBox("Singleplayer");
+        cbOmiljeno = new JCheckBox("Omiljeno");
+        cbPreporucujem = new JCheckBox("Preporučujem");
+        pOznake.add(cbMultiplayer);
+        pOznake.add(cbSingleplayer);
+        pOznake.add(cbOmiljeno);
+        pOznake.add(cbPreporucujem);
+
+        //OCJENA
+        JPanel pOcjena = new JPanel(new BorderLayout(0, 6));
+        sliderOcjena = new JSlider(0, 10, 0);
+        sliderOcjena.setMajorTickSpacing(1/2);
+        sliderOcjena.setPaintTicks(true);
+        sliderOcjena.setPaintLabels(true);
+        sliderOcjena.setSnapToTicks(true);
+        lblOcjenaVrijednost = new JLabel("Nije ocijenjeno", SwingConstants.CENTER);
+        lblOcjenaVrijednost.setFont(new Font("Arial", Font.BOLD, 13));
+        sliderOcjena.addChangeListener(e -> {
+            int v = sliderOcjena.getValue();
+            lblOcjenaVrijednost.setText( v + " / 10");
+        });
+        pOcjena.add(sliderOcjena, BorderLayout.CENTER);
+        pOcjena.add(lblOcjenaVrijednost, BorderLayout.SOUTH);
+        pSrednji.add(pStatus);
+        pSrednji.add(pOznake);
+        pSrednji.add(pOcjena);
+
+        //komentar
+        JPanel pKomentar = new JPanel(new BorderLayout());
+        txtKomentar = new JTextArea(4, 40);
+        txtKomentar.setLineWrap(true);
+        txtKomentar.setWrapStyleWord(true);
+        pKomentar.add(new JScrollPane(txtKomentar), BorderLayout.CENTER);
+
+        //gumbi
+        JPanel pGumbi = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
+        JButton btnOcisti = new JButton("Očisti");
+        JButton btnSpremi = new JButton("Spremi igru");
+        btnSpremi.setBackground(new Color(83, 74, 183));
+        btnSpremi.setForeground(Color.WHITE);
+        btnSpremi.setFocusPainted(false);
+        //btnOcisti.addActionListener(e -> ocisti()); moram napraviti metodu
+        //btnSpremi.addActionListener(e -> spremiIgru()); moram napraviti metodu
+        pGumbi.add(btnOcisti);
+        pGumbi.add(btnSpremi);
+
+        JPanel pCentar = new JPanel();
+        pCentar.setLayout(new BoxLayout(pCentar, BoxLayout.Y_AXIS));
+        pCentar.add(pGornji);
+        pCentar.add(Box.createVerticalStrut(8));
+        pCentar.add(pSrednji);
+        pCentar.add(Box.createVerticalStrut(8));
+        pCentar.add(pKomentar);
+        add(pCentar, BorderLayout.CENTER);
+        add(pGumbi, BorderLayout.SOUTH);
+
     }
+
 
 }
