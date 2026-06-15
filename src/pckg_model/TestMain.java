@@ -17,7 +17,7 @@ public class TestMain {
         VideoIgra v2 = new VideoIgra("Rockstar",2012,"",true,"GTA V",
                 8,true,"PC/CONSOLE",true,true,"","Story");
 
-        VideoIgra v3 = new VideoIgra("Unity",2013,"",true,"Far cry 3",
+        VideoIgra v3 = new VideoIgra("Ubisoft",2013,"Posljednja dobra far cry igra... ",true,"Far cry 3",
                 10,true,"PC/CONSOLE",true,true,"","Story");
 
         List<VideoIgra> l1 = new ArrayList<>();
