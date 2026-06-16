@@ -4,6 +4,7 @@ import pckg_io.UpravljanjeDatotekama;
 import pckg_model.VideoIgra;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,8 @@ public class GlavniProzor extends JFrame {
 
     private DodajIgruPanel dodajPanel;
     private List<VideoIgra> listaIgara;
+    private ListaPanel listaPanel;
+    private JTabbedPane tabovi;
 
     public GlavniProzor(){
         setTitle("GameVault");
@@ -31,8 +34,18 @@ public class GlavniProzor extends JFrame {
 
     private void izgradiSucelje() {
         dodajPanel = new DodajIgruPanel(this);
-        add(dodajPanel);
+        listaPanel = new ListaPanel(this);
 
+        tabovi = new JTabbedPane();
+        tabovi.addTab("Dodaj igru", dodajPanel);
+        tabovi.addTab("Moja lista", listaPanel);
+
+        tabovi.addChangeListener(e -> {
+            int idx = tabovi.getSelectedIndex();
+            if (idx == 1) listaPanel.osvjezi();
+        });
+
+        add(tabovi, BorderLayout.CENTER);
     }
 
     //za panele
