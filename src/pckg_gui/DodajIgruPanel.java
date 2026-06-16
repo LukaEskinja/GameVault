@@ -130,7 +130,7 @@ public class DodajIgruPanel extends JPanel {
         //OCJENA
         JPanel pOcjena = new JPanel(new BorderLayout(0, 6));
         sliderOcjena = new JSlider(0, 10, 0);
-        sliderOcjena.setMajorTickSpacing(1/2);
+        sliderOcjena.setMajorTickSpacing(1);
         sliderOcjena.setPaintTicks(true);
         sliderOcjena.setPaintLabels(true);
         sliderOcjena.setSnapToTicks(true);
@@ -160,8 +160,8 @@ public class DodajIgruPanel extends JPanel {
         btnSpremi.setBackground(new Color(83, 74, 183));
         btnSpremi.setForeground(Color.WHITE);
         btnSpremi.setFocusPainted(false);
-        //btnOcisti.addActionListener(e -> ocisti()); moram napraviti metodu
-        //btnSpremi.addActionListener(e -> spremiIgru()); moram napraviti metodu
+        btnOcisti.addActionListener(e -> ocisti());
+        btnSpremi.addActionListener(e -> spremiIgru());
         pGumbi.add(btnOcisti);
         pGumbi.add(btnSpremi);
 
@@ -175,7 +175,76 @@ public class DodajIgruPanel extends JPanel {
         add(pCentar, BorderLayout.CENTER);
         add(pGumbi, BorderLayout.SOUTH);
 
-    }
+        }
+
+        private void spremiIgru() {
+            String naziv = txtNaziv.getText().trim();
+            if (naziv.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Naziv igre je obavezno polje",
+                        "Greška unosa", JOptionPane.WARNING_MESSAGE);
+                txtNaziv.requestFocus();
+                return;
+            }
+
+            int godina = 0;
+            String godinaStr = txtGodina.getText().trim();
+            if (!godinaStr.isEmpty()) {
+                try {
+                    godina = Integer.parseInt(godinaStr);
+                    if (godina < 1970 || godina > 2026) {
+                        throw new NumberFormatException("Van raspona");
+                    }
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Godina mora biti od 1970 do 2026",
+                            "Greška unosa", JOptionPane.WARNING_MESSAGE);
+                    txtGodina.requestFocus();
+                    return;
+                }
+            }
+
+            String status;
+            if (rbIgram.isSelected()) {
+                status = "Igram";
+            } else if (rbZavrseno.isSelected()) {
+                status = "Završeno";
+            } else {
+                status = "Planiram igrati";
+            }
+
+            if (igra == null) {
+                VideoIgra novaIgra = new VideoIgra(txtDeveloper.getText().trim(), godina,
+                        txtKomentar.getText().trim(), cbMultiplayer.isSelected(), naziv, sliderOcjena.getValue(),
+                        cbOmiljeno.isSelected(), (String) cbPlatforma.getSelectedItem(), cbPreporucujem.isSelected(),
+                        cbSingleplayer.isSelected(), status, (String) cbZanr.getSelectedItem());
+
+                glavni.dodajIgru(novaIgra);
+                JOptionPane.showMessageDialog(this, "Igra" + naziv + "uspješno dodana",
+                        "Dodano", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }
+
+        public void ocisti() {
+            igra = null;
+            txtNaziv.setText("");
+            txtDeveloper.setText("");
+            txtGodina.setText("");
+            txtKomentar.setText("");
+            sliderOcjena.setValue(0);
+            rbZavrseno.setSelected(true);
+            cbMultiplayer.setSelected(false);
+            cbSingleplayer.setSelected(false);
+            cbOmiljeno.setSelected(false);
+            cbPreporucujem.setSelected(false);
+            cbZanr.setSelectedIndex(0);
+            cbPlatforma.setSelectedIndex(0);
+            txtNaziv.requestFocus();
+        }
+
+
+
+
 
 
 }
+
+
