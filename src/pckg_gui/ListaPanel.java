@@ -5,6 +5,7 @@ import pckg_model.VideoIgra;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.List;
 
 public class ListaPanel extends JPanel{
 
@@ -82,7 +83,7 @@ public class ListaPanel extends JPanel{
         JButton btnUredi = new JButton("Uredi");
         //napisati metodu
         JButton btnObrisi = new JButton("Obriši");
-        //napisati metodu
+        btnObrisi.addActionListener(e -> obrisiOdabranu());
 
         JLabel lblBroj = new JLabel();
         pGumbi.add(lblBroj);
@@ -127,5 +128,45 @@ public class ListaPanel extends JPanel{
 
         }
 
+
+
     }
+
+    // gumbi za brisanje i uređivanje igara
+
+    private int getOdabraniIndeks() {
+        int row = tablica.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this,"Odaberi igru iz liste","nema odabira",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return  -1;
+        }
+        String naziv = (String) modelTablice.getValueAt(row,0);
+        List<VideoIgra> sve = glavni.getListaIgara();
+        for (int i = 0; i < sve.size(); i++) {
+            if(sve.get(i).getNaziv().equals(naziv)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void obrisiOdabranu() {
+        int idx = getOdabraniIndeks();
+        if (idx < 0){
+            return;
+        }
+        VideoIgra igra = glavni.getListaIgara().get(idx);
+
+        int potvrda = JOptionPane.showConfirmDialog(this,"Sigurno želiš izbrisati ovu igru " + igra.getNaziv(),
+                "Potvrda brisanja", JOptionPane.YES_NO_OPTION,JOptionPane.WARNING_MESSAGE);
+
+        if (potvrda == JOptionPane.YES_OPTION) {
+            glavni.ukloniIgru(igra);
+            osvjezi();
+        }
+
+    }
+
+
 }

@@ -5,6 +5,7 @@ import pckg_model.VideoIgra;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,18 @@ public class GlavniProzor extends JFrame {
     }
 
     private void ucitajIgre() {
-        listaIgara = new ArrayList<>();
+        try{
+            listaIgara = UpravljanjeDatotekama.ucitajIgre();
+            if (listaIgara.isEmpty()){
+                listaIgara = PresetPodaci.dajPresetIgre();
+                UpravljanjeDatotekama.spremiIgre(listaIgara);
+            }
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(this,"Greška pri učitavanju igara" +
+                    e.getMessage(),"Greška", JOptionPane.WARNING_MESSAGE);
+            listaIgara = new ArrayList<>();
+
+        }
     }
 
     private void izgradiSucelje() {
@@ -56,6 +68,11 @@ public class GlavniProzor extends JFrame {
 
     public void dodajIgru(VideoIgra igra){
         listaIgara.add(igra);
+        spremiIgre();
+    }
+
+    public void ukloniIgru(VideoIgra igra) {
+        listaIgara.remove(igra);
         spremiIgre();
     }
 
