@@ -86,4 +86,9 @@ public class GlavniProzor extends JFrame {
         }
     }
 
+    public void prebaciNaLIstu() {
+        tabovi.setSelectedIndex(1);
+        listaPanel.osvjezi();
+    }
+
 }

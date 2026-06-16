@@ -220,6 +220,47 @@ public class DodajIgruPanel extends JPanel {
                 glavni.dodajIgru(novaIgra);
                 JOptionPane.showMessageDialog(this, "Igra" + naziv + "uspješno dodana",
                         "Dodano", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                igra.setNaziv(naziv);
+                igra.setDeveloper(txtDeveloper.getText().trim());
+                igra.setGodina(godina);
+                igra.setZanr((String) cbZanr.getSelectedItem());
+                igra.setPlatforma((String) cbPlatforma.getSelectedItem());
+                igra.setStatus(status);
+                igra.setOcjena(sliderOcjena.getValue());
+                igra.setKomentar(txtKomentar.getText().trim());
+                igra.setMultiplayer(cbMultiplayer.isSelected());
+                igra.setSingleplayer(cbSingleplayer.isSelected());
+                igra.setOmiljeno(cbOmiljeno.isSelected());
+                igra.setPreporucujem(cbPreporucujem.isSelected());
+                glavni.spremiIgre();
+                JOptionPane.showMessageDialog(this,"Igra ažurirana","Ažurirano",JOptionPane.INFORMATION_MESSAGE);
+                this.igra = null;
+            }
+
+            ocisti();
+            glavni.prebaciNaLIstu();
+        }
+
+        public void postaviZaUredivanje(VideoIgra igra){
+            this.igra = igra;
+
+            txtNaziv.setText(igra.getNaziv());
+            txtDeveloper.setText(igra.getDeveloper());
+            txtGodina.setText(String.valueOf(igra.getGodina()));
+            txtKomentar.setText(igra.getKomentar());
+            sliderOcjena.setValue(igra.getOcjena());
+            cbMultiplayer.setSelected(igra.isMultiplayer());
+            cbSingleplayer.setSelected(igra.isSingleplayer());
+            cbOmiljeno.setSelected(igra.isOmiljeno());
+            cbPreporucujem.setSelected(igra.isPreporucujem());
+            cbZanr.setSelectedItem(igra.getZanr());
+            cbPlatforma.setSelectedItem(igra.getPlatforma());
+
+            switch (igra.getStatus()) {
+                case "Igram" -> rbIgram.setSelected(true);
+                case "Završeno" -> rbZavrseno.setSelected(true);
+                case "Planiram igrati" -> rbPlaniram.setSelected(true);
             }
         }
 

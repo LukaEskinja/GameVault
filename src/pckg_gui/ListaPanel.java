@@ -81,7 +81,7 @@ public class ListaPanel extends JPanel{
 
         JPanel pGumbi = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 4));
         JButton btnUredi = new JButton("Uredi");
-        //napisati metodu
+        btnUredi.addActionListener(e -> urediOdabranu());
         JButton btnObrisi = new JButton("Obriši");
         btnObrisi.addActionListener(e -> obrisiOdabranu());
 
@@ -166,6 +166,18 @@ public class ListaPanel extends JPanel{
             osvjezi();
         }
 
+    }
+
+    private void urediOdabranu() {
+        int idx = getOdabraniIndeks();
+        if (idx < 0){
+            return;
+        }
+        VideoIgra igra = glavni.getListaIgara().get(idx);
+
+        DodajIgruPanel dodajpanel = (DodajIgruPanel) getParent().getComponent(0);
+        dodajpanel.postaviZaUredivanje(igra);
+        ((JTabbedPane) getParent()).setSelectedIndex(0);
     }
 
 
