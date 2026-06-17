@@ -77,8 +77,12 @@ public class GlavniProzor extends JFrame {
         miSpremi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         miSpremi.addActionListener(e -> spremiIgre());
 
+        JMenuItem miIzvoz = new JMenuItem("Izvezi u txt.");
+        miIzvoz.addActionListener(e -> izvezi());
+
 
         menuDatoteka.add(miSpremi);
+        menuDatoteka.add(miIzvoz);
 
         menuBar.add(menuDatoteka);
         setJMenuBar(menuBar);
@@ -108,6 +112,17 @@ public class GlavniProzor extends JFrame {
             JOptionPane.showMessageDialog(this, "Greška pri spremanju" + e.getMessage(),
                     "Greška", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private void izvezi() {
+        try{
+            UpravljanjeDatotekama.izvozListeUTxt(listaIgara);
+            JOptionPane.showMessageDialog(this,"Lista uspješno izvezena","Izvezena",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this,"Greška pri izvozu","Greška",JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
     public void prebaciNaLIstu() {
