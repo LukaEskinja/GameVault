@@ -14,7 +14,6 @@ public class StatistikaPanel extends JPanel {
     private GlavniProzor glavni;
 
     private JLabel lblUkupno;
-    private JLabel lblVrijednost;
 
     private JLabel lblZavrseno;
     private JLabel lblIgram;
@@ -28,7 +27,6 @@ public class StatistikaPanel extends JPanel {
     private JLabel lblProsjecna;
     private JLabel lblNajvisa;
     private JLabel lblNajniza;
-    private JLabel getLblProsjecna;
 
     private JProgressBar pbZavrseno, pbIgram, pbPlaniram;
 

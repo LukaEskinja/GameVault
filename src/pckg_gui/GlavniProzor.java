@@ -5,6 +5,8 @@ import pckg_model.VideoIgra;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class GlavniProzor extends JFrame {
 
         ucitajIgre();
         izgradiSucelje();
+        izgradiMenuBar();
 
         setVisible(true);
     }
@@ -62,6 +65,23 @@ public class GlavniProzor extends JFrame {
         });
 
         add(tabovi, BorderLayout.CENTER);
+    }
+
+    private void izgradiMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+
+        JMenu menuDatoteka = new JMenu("Datoteka");
+        menuDatoteka.setMnemonic(KeyEvent.VK_D);
+
+        JMenuItem miSpremi = new JMenuItem("Spremi");
+        miSpremi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
+        miSpremi.addActionListener(e -> spremiIgre());
+
+
+        menuDatoteka.add(miSpremi);
+
+        menuBar.add(menuDatoteka);
+        setJMenuBar(menuBar);
     }
 
     //za panele
