@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StatistikaPanel extends JPanel {
@@ -100,11 +101,38 @@ public class StatistikaPanel extends JPanel {
         pOcjene.add(lblNajvisa.getParent());
         pOcjene.add(lblNajniza.getParent());
 
+        //dodatno(žanrovi,platvorme.oznake)
+        JPanel pDodatno = new JPanel(new GridLayout(1, 4, 10, 0));
+
+        lblNajZanr = kartica("Najzastupljeniji žanr", "-", new Color(30, 120, 120));
+        lblNajPlatforma = kartica("Najzastupljenija platforma", "-", new Color(30, 120, 120));
+        lblOmiljeni = kartica("Omiljeno", "-", new Color(180, 50, 100));
+        lblPreporuceni = kartica("Preporučujem", "-", new Color(83, 74, 183));
+
+        pDodatno.add(lblNajZanr.getParent());
+        pDodatno.add(lblNajPlatforma.getParent());
+        pDodatno.add(lblOmiljeni.getParent());
+        pDodatno.add(lblPreporuceni.getParent());
+
         //slaganje
         pSve.add(pKartice);
+        pSve.add(Box.createVerticalStrut(10));
         pSve.add(pProgress);
+        pSve.add(Box.createVerticalStrut(10));
         pSve.add(pOcjene);
+        pSve.add(Box.createVerticalStrut(10));
+        pSve.add(pDodatno);
+
         add(new JScrollPane(pSve), BorderLayout.CENTER);
+
+        //gumb za osvjezavanje
+        JButton btnOsvjezi = new JButton("Osvježi statistiku");
+        btnOsvjezi.addActionListener(e -> osvjezi());
+        JPanel pDno = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        pDno.add(btnOsvjezi);
+        add(pDno, BorderLayout.SOUTH);
+
+        osvjezi();
     }
 
     //osvjezavanje
@@ -158,6 +186,19 @@ public class StatistikaPanel extends JPanel {
             }
 
         }
+        //dodatno(zanimljive informacije na dnu prozora)
+        igre.stream().collect(Collectors.groupingBy(VideoIgra::getZanr, Collectors.counting()))
+                .entrySet().stream().max(Map.Entry.comparingByValue())
+                .ifPresent(e -> lblNajZanr.setText(e.getKey() + " (" + e.getValue() + ")"));
+
+        igre.stream().collect(Collectors.groupingBy(VideoIgra::getPlatforma, Collectors.counting()))
+                .entrySet().stream().max(Map.Entry.comparingByValue())
+                .ifPresent(e -> lblNajPlatforma.setText(e.getKey() + " (" + e.getValue() + ")"));
+
+        long omiljenih     = igre.stream().filter(VideoIgra::isOmiljeno).count();
+        long preporucenih  = igre.stream().filter(VideoIgra::isPreporucujem).count();
+        lblOmiljeni.setText(String.valueOf(omiljenih));
+        lblPreporuceni.setText(String.valueOf(preporucenih));
     }
 
     //pomocne metode
