@@ -208,13 +208,14 @@ public class StatistikaPanel extends JPanel {
         p.setBackground(new Color(245,245,250));
         p.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(200,200,200)
                 ),BorderFactory.createEmptyBorder(10,12,10,12)));
+        p.setPreferredSize(new Dimension(190, 72));
 
         JLabel lblNaslov = new JLabel(naslov, SwingConstants.CENTER);
         lblNaslov.setFont(new Font("Arial",Font.PLAIN,11));
         lblNaslov.setForeground(Color.GRAY);
 
         JLabel lblVrijednost = new JLabel(vrijednost, SwingConstants.CENTER);
-        lblVrijednost.setFont(new Font("Arial",Font.BOLD,20));
+        lblVrijednost.setFont(new Font("Arial",Font.BOLD,16));
         lblVrijednost.setForeground(boja);
 
         p.add(lblNaslov,BorderLayout.NORTH);
