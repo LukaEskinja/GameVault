@@ -53,7 +53,43 @@ public class StatistikaPanel extends JPanel {
         pKartice.add(lblIgram.getParent());
         pKartice.add(lblPlaniram.getParent());
 
+        //Status barovi
+        JPanel pProgress = new JPanel(new GridBagLayout());
+        GridBagConstraints g = new GridBagConstraints();
+        g.insets = new Insets(5,6,5,6);
+        g.fill = GridBagConstraints.HORIZONTAL;
+
+        pbZavrseno = noviProgressBar(new Color(59,109,17));
+        pbIgram = noviProgressBar(new Color(24,95,165));
+        pbPlaniram = noviProgressBar(new Color(133,79,11));
+
+        g.gridx = 0;
+        g.gridy = 0;
+        g.weightx = 0;
+        pProgress.add(new JLabel("Završeno"), g);
+        g.gridx = 1;
+        g.weightx = 1;
+        pProgress.add(pbZavrseno, g);
+
+        g.gridx = 0;
+        g.gridy = 1;
+        g.weightx = 0;
+        pProgress.add(new JLabel("Igram"), g);
+        g.gridx = 1;
+        g.weightx = 1;
+        pProgress.add(pbIgram, g);
+
+        g.gridx = 0;
+        g.gridy = 2;
+        g.weightx = 0;
+        pProgress.add(new JLabel("Planiram igrati"), g);
+        g.gridx = 1;
+        g.weightx = 1;
+        pProgress.add(pbPlaniram, g);
+
+        //slaganje
         pSve.add(pKartice);
+        pSve.add(pProgress);
         add(new JScrollPane(pSve), BorderLayout.CENTER);
     }
 
@@ -81,6 +117,9 @@ public class StatistikaPanel extends JPanel {
         lblIgram.setText(String.valueOf(igram));
         lblPlaniram.setText(String.valueOf(planiram));
 
+        pbZavrseno.setValue((int)(zavrseno * 100/ ukupno));
+        pbIgram.setValue((int)(igram * 100 / ukupno));
+        pbPlaniram.setValue((int)(planiram * 100 / ukupno));
     }
 
     //pomocne metode
@@ -103,6 +142,14 @@ public class StatistikaPanel extends JPanel {
         p.add(lblVrijednost,BorderLayout.CENTER);
 
         return lblVrijednost;
+    }
+
+    private JProgressBar noviProgressBar(Color boja){
+        JProgressBar pb = new JProgressBar(0,100);
+        pb.setStringPainted(true);
+        pb.setForeground(boja);
+        pb.setPreferredSize(new Dimension(400,22));
+        return pb;
     }
 
 
