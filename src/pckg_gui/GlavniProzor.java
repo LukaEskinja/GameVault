@@ -16,6 +16,7 @@ public class GlavniProzor extends JFrame {
     private List<VideoIgra> listaIgara;
     private ListaPanel listaPanel;
     private JTabbedPane tabovi;
+    private StatistikaPanel statistikaPanel;
 
     public GlavniProzor(){
         setTitle("GameVault");
@@ -47,14 +48,17 @@ public class GlavniProzor extends JFrame {
     private void izgradiSucelje() {
         dodajPanel = new DodajIgruPanel(this);
         listaPanel = new ListaPanel(this);
+        statistikaPanel = new StatistikaPanel(this);
 
         tabovi = new JTabbedPane();
         tabovi.addTab("Dodaj igru", dodajPanel);
         tabovi.addTab("Moja lista", listaPanel);
+        tabovi.addTab("Statistika",statistikaPanel);
 
         tabovi.addChangeListener(e -> {
             int idx = tabovi.getSelectedIndex();
             if (idx == 1) listaPanel.osvjezi();
+            if (idx == 2) statistikaPanel.osvjezi();
         });
 
         add(tabovi, BorderLayout.CENTER);
