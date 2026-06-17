@@ -70,6 +70,7 @@ public class GlavniProzor extends JFrame {
     private void izgradiMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
+        //datoteka
         JMenu menuDatoteka = new JMenu("Datoteka");
         menuDatoteka.setMnemonic(KeyEvent.VK_D);
 
@@ -80,11 +81,40 @@ public class GlavniProzor extends JFrame {
         JMenuItem miIzvoz = new JMenuItem("Izvezi u txt.");
         miIzvoz.addActionListener(e -> izvezi());
 
-
         menuDatoteka.add(miSpremi);
         menuDatoteka.add(miIzvoz);
 
         menuBar.add(menuDatoteka);
+
+        //kretanje kroz prozore
+        JMenu menuPrikaz = new JMenu("Prikaz");
+
+        JMenuItem miDodaj = new JMenuItem("Dodaj igru");
+        miDodaj.addActionListener(e -> tabovi.setSelectedIndex(0));
+
+        JMenuItem miLista = new JMenuItem("Moja lista");
+        miLista.addActionListener(e -> tabovi.setSelectedIndex(1));
+
+        JMenuItem miStat = new JMenuItem("Statistika");
+        miStat.addActionListener(e -> tabovi.setSelectedIndex(2));
+
+        menuPrikaz.add(miDodaj);
+        menuPrikaz.add(miLista);
+        menuPrikaz.add(miStat);
+
+        menuBar.add(menuPrikaz);
+
+        //o aplikaciji
+        JMenuItem menuPomoc = new JMenu("Pomoć");
+
+        JMenuItem miOAplikaciji = new JMenuItem("O aplikaciji");
+        miOAplikaciji.addActionListener(e -> JOptionPane.showMessageDialog(this,
+                "GameVault v1.0 \n Aplikacija za ocijenjivanje i rangiranje video igara","O Aplikaciji",
+                JOptionPane.INFORMATION_MESSAGE));
+
+        menuPomoc.add(miOAplikaciji);
+        menuBar.add(menuPomoc);
+
         setJMenuBar(menuBar);
     }
 
