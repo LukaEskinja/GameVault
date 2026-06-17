@@ -4,7 +4,9 @@ import pckg_model.VideoIgra;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StatistikaPanel extends JPanel {
 
@@ -87,9 +89,21 @@ public class StatistikaPanel extends JPanel {
         g.weightx = 1;
         pProgress.add(pbPlaniram, g);
 
+        //ocjene
+        JPanel pOcjene = new JPanel(new GridLayout(1,3,10,0));
+
+        lblProsjecna = kartica("Prosječna ocjena","-",new Color(83,74,183));
+        lblNajvisa = kartica("Najviša ocjena","-",new Color(59,109,17));
+        lblNajniza = kartica("Najniža ocjena","-",new Color(163,45,45));
+
+        pOcjene.add(lblProsjecna.getParent());
+        pOcjene.add(lblNajvisa.getParent());
+        pOcjene.add(lblNajniza.getParent());
+
         //slaganje
         pSve.add(pKartice);
         pSve.add(pProgress);
+        pSve.add(pOcjene);
         add(new JScrollPane(pSve), BorderLayout.CENTER);
     }
 
@@ -120,6 +134,30 @@ public class StatistikaPanel extends JPanel {
         pbZavrseno.setValue((int)(zavrseno * 100/ ukupno));
         pbIgram.setValue((int)(igram * 100 / ukupno));
         pbPlaniram.setValue((int)(planiram * 100 / ukupno));
+
+        //ocjene
+        List<VideoIgra> ocijenjene = igre.stream().filter(i -> i.getOcjena() > 0).collect(Collectors.toList());
+
+        if (ocijenjene.isEmpty()) {
+            lblNajniza.setText("-");
+            lblNajvisa.setText("-");
+            lblProsjecna.setText("-");
+        } else {
+            double prosjek = ocijenjene.stream().mapToInt(VideoIgra::getOcjena).average().orElse(0);
+            lblProsjecna.setText(String.format("%.1f/10",prosjek));
+
+            VideoIgra najvisa = ocijenjene.stream().max(Comparator.comparingInt(VideoIgra::getOcjena)).orElse(null);
+            VideoIgra najniza = ocijenjene.stream().min(Comparator.comparingInt(VideoIgra::getOcjena)).orElse(null);
+
+            if(najvisa != null) {
+                lblNajvisa.setText(formatIgra(najvisa));
+            }
+
+            if(najniza != null){
+                lblNajniza.setText(formatIgra(najniza));
+            }
+
+        }
     }
 
     //pomocne metode
@@ -150,6 +188,10 @@ public class StatistikaPanel extends JPanel {
         pb.setForeground(boja);
         pb.setPreferredSize(new Dimension(400,22));
         return pb;
+    }
+
+    private String formatIgra(VideoIgra igra) {
+        return igra.getNaziv() + " (" + igra.getOcjena() + "/10)";
     }
 
 
